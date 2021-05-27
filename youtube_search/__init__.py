@@ -3,8 +3,16 @@ import urllib.parse
 import json
 
 
+class YouTubeSearchOptions:
+    LAST_HOUR = '&sp=EgQIARAB'
+    TODAY = '&sp=EgQIAhAB'
+    THIS_WEEK = '&sp=EgQIAxAB'
+    THIS_MONTH = '&sp=EgQIBBAB'
+    THIS_YEAR = '&sp=EgQIBRAB'
+
 class YoutubeSearch:
-    def __init__(self, search_terms: str, max_results=None):
+    def __init__(self, search_terms: str, upload_date: str="", max_results=None):
+        self.upload_date = upload_date
         self.search_terms = search_terms
         self.max_results = max_results
         self.videos = self._search()
@@ -12,7 +20,7 @@ class YoutubeSearch:
     def _search(self):
         encoded_search = urllib.parse.quote_plus(self.search_terms)
         BASE_URL = "https://youtube.com"
-        url = f"{BASE_URL}/results?search_query={encoded_search}"
+        url = f"{BASE_URL}/results?search_query={encoded_search}{self.upload_date}"
         response = requests.get(url).text
         while "ytInitialData" not in response:
             response = requests.get(url).text
