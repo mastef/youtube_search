@@ -51,10 +51,10 @@ class YoutubeSearch:
                 res["id"] = video_data.get("videoId", None)
                 res["thumbnails"] = [thumb.get("url", None) for thumb in video_data.get("thumbnail", {}).get("thumbnails", [{}]) ]
                 res["title"] = video_data.get("title", {}).get("runs", [[{}]])[0].get("text", None)
-                res["long_desc"] = video_data.get("descriptionSnippet", {}).get("runs", [{}])[0].get("text", None)
+                res["long_desc"] = video_data.get("detailedMetadataSnippets", [{}])[0].get("snippetText", {}).get("runs", [{}])[0].get("text", None)
                 res["channel"] = video_data.get("longBylineText", {}).get("runs", [[{}]])[0].get("text", None)
                 res["duration"] = video_data.get("lengthText", {}).get("simpleText", 0)
-                res["views"] = video_data.get("viewCountText", {}).get("simpleText", 0)
+                res["views"] = video_data.get("shortViewCountText", {}).get("simpleText", 0)
                 res["publish_time"] = video_data.get("publishedTimeText", {}).get("simpleText", 0)
                 res["url_suffix"] = video_data.get("navigationEndpoint", {}).get("commandMetadata", {}).get("webCommandMetadata", {}).get("url", None)
                 results.append(res)
